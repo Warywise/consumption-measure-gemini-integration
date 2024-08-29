@@ -12,6 +12,8 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "no-console": "warn",
-    "prettier/prettier": ["error"]
+    "prettier/prettier": ["error"],
+    "no-duplicate-imports": "error",
+    "eslint-plugin-import/order": "warn"
   }
 }

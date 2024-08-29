@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydatabase
+      POSTGRES_DB: cmgi-db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -15,30 +15,31 @@ services:
     expose:
       - 5432
     networks:
-     - cgmi-network
+     - cmgi-network
 
-  cmgi-server:
-    build: .
-    container_name: cmgi-server-container
-    ports:
-      - '3000:3000'
-    environment:
-      - NODE_ENV=development
-      - DATABASE_URL=postgresql://user:password@db:5432/mydatabase
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
-    networks:
-      - cgmi-network
-    depends_on:
-      - cgmi-db
-    volumes:
-      - .:/app
-      - /app/node_modules
-    command: yarn dev
-    restart: always
+  # cmgi-server:
+  #   build: .
+  #   container_name: cmgi-server-container
+  #   ports:
+  #     - '3000:3000'
+  #   environment:
+  #     - NODE_ENV=development
+  #     - DATABASE_URL=postgresql://user:password@db:5432/mydatabase
+  #     - GEMINI_API_KEY=${GEMINI_API_KEY}
+  #     - TEST_ENV=test
+  #   networks:
+  #     - cmgi-network
+  #   depends_on:
+  #     - cmgi-db
+  #   # volumes:
+  #   #   - .:/app
+  #   #   - /app/node_modules
+  #   command: yarn dev
+  #   restart: always
 
 networks:
-  cgmi-network:
-    name: cgmi-network
+  cmgi-network:
+    name: cmgi-network
 
 volumes:
   postgres_data:
