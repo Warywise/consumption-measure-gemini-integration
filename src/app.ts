@@ -1,10 +1,10 @@
-import express from "express";
-import cors from "cors";
-import morgan from "morgan";
-import dotenv from "dotenv";
-import helmet from "helmet";
-import compression from "compression";
-import useSwagger from "./utils/swagger";
+import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
+import dotenv from 'dotenv';
+import helmet from 'helmet';
+import compression from 'compression';
+import useSwagger from './utils/swagger';
 
 dotenv.config();
 
@@ -20,9 +20,9 @@ app.use(morgan('tiny'));
 useSwagger(app);
 
 app.get('/', (_req, res) => {
-  res.send('Consumption Measurement API. OK!')
+  res.send('Consumption Measurement API. OK!');
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}.`)
+  console.log(`🚀 Server is running on port ${PORT}.`);
 });
