@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import compression from 'compression';
 import useSwagger from './utils/swagger';
+import { errorHandler } from './middlewares/errorHandler';
+import logger from './utils/logger';
 
 dotenv.config();
 
@@ -17,6 +19,8 @@ app.use(helmet());
 app.use(compression());
 app.use(morgan('tiny'));
 
+app.use(errorHandler);
+
 useSwagger(app);
 
 app.get('/', (_req, res) => {
@@ -24,5 +28,7 @@ app.get('/', (_req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}.`);
+  logger.info(`🚀 Server is running on port ${PORT}.`);
 });
+
+export default app;
