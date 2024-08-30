@@ -4,11 +4,21 @@ import geminiService from './geminiService';
 import measuresModel from '../models/measuresModel';
 import customersModel from '../models/customersModel';
 
-interface CreateMeasurePayload {
+export interface CreateMeasurePayload {
   customer_code: string;
   measure_datetime: Date;
   measure_type: MeasureType;
   image: string;
+}
+
+export interface ConfirmMeasurePayload {
+  measure_uuid: string;
+  confirmed_value: number;
+}
+
+export interface ListMeasuresPayload {
+  customer_code: string;
+  measure_type?: MeasureType;
 }
 
 class MeasureService {
@@ -56,7 +66,7 @@ class MeasureService {
     };
   }
 
-  async confirmMeasure(measure_uuid: string, confirmed_value: number) {
+  async confirmMeasure({ measure_uuid, confirmed_value }: ConfirmMeasurePayload) {
     const measure = await measuresModel.findByUuid(measure_uuid);
 
     if (!measure) {
@@ -77,15 +87,18 @@ class MeasureService {
       };
     }
 
-    const updatedMeasure = await measuresModel.update(measure_uuid, {
+    await measuresModel.update(measure_uuid, {
       measure_value: confirmed_value,
       has_confirmed: true,
     });
 
-    return updatedMeasure;
+    return {
+      status_code: 200,
+      data: { success: true },
+    };
   }
 
-  async listMeasures(customer_code: string, measure_type?: MeasureType) {
+  async listMeasures({ customer_code, measure_type }: ListMeasuresPayload) {
     const measures = await measuresModel.findByCustomer(customer_code, {
       measure_type,
     });
