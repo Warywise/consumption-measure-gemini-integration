@@ -1,7 +1,4 @@
-import {
-  Customer,
-  PrismaClient as PrismaClientType,
-} from '@prisma/client';
+import { Prisma, PrismaClient as PrismaClientType } from '@prisma/client';
 import PrismaClient from './prismaClient';
 
 class CustomersModel {
@@ -11,7 +8,7 @@ class CustomersModel {
     this.prisma = PrismaClient;
   }
 
-  async create(data: Customer) {
+  async create(data: Prisma.CustomerCreateInput) {
     return this.prisma.customer.create({ data });
   }
 
@@ -23,7 +20,7 @@ class CustomersModel {
 
   async update(
     { id, customer_code }: { id?: string; customer_code?: string },
-    data: Partial<Customer>,
+    data: Prisma.CustomerUpdateInput,
   ) {
     const where = id ? { id } : { customer_code };
 

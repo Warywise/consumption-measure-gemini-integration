@@ -1,6 +1,7 @@
 import { Application } from "express";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import { measureDocs } from "./swaggerDocs";
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -9,9 +10,12 @@ const swaggerOptions = {
       title: 'API de Medições',
       version: '1.0.0',
     },
+    paths: {
+      ...measureDocs,
+    },
   },
   apis: ['./src/routes/*.ts'],
-};
+} as swaggerJsdoc.Options;
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
