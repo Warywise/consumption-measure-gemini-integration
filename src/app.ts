@@ -7,6 +7,7 @@ import compression from 'compression';
 import useSwagger from './utils/swagger';
 import { errorHandler } from './middlewares/errorHandler';
 import logger from './utils/logger';
+import router from './routes';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(compression());
 app.use(morgan('tiny'));
 
 app.use(errorHandler);
+app.use(router);
 
 useSwagger(app);
 
