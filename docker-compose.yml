@@ -17,25 +17,24 @@ services:
     networks:
      - cmgi-network
 
-  # cmgi-server:
-  #   build: .
-  #   container_name: cmgi-server-container
-  #   ports:
-  #     - '3000:3000'
-  #   environment:
-  #     - NODE_ENV=development
-  #     - DATABASE_URL=postgresql://user:password@db:5432/mydatabase
-  #     - GEMINI_API_KEY=${GEMINI_API_KEY}
-  #     - TEST_ENV=test
-  #   networks:
-  #     - cmgi-network
-  #   depends_on:
-  #     - cmgi-db
-  #   # volumes:
-  #   #   - .:/app
-  #   #   - /app/node_modules
-  #   command: yarn dev
-  #   restart: always
+  cmgi-server:
+    build: .
+    container_name: cmgi-server-container
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://user:password@cmgi-db:5432/cmgi-db
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    networks:
+      - cmgi-network
+    depends_on:
+      - cmgi-db
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: sh -c "yarn prisma:push && yarn dev"
+    restart: always
 
 networks:
   cmgi-network:

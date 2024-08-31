@@ -9,14 +9,15 @@
   "private": false,
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
-    "start": "node dist/app.js",
+    "start": "yarn build && node dist/app.js",
     "build": "tsc",
     "lint": "eslint 'src/**/*.ts'",
     "lint:fix": "eslint 'src/**/*.ts' --fix",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "prisma:migrate": "prisma migrate dev --name init",
+    "prisma:migrate": "prisma migrate dev --name init && prisma generate",
+    "prisma:push": "prisma db push && prisma generate",
     "prisma:generate": "prisma generate",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write ."
