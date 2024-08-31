@@ -5,6 +5,7 @@ import measureService, {
   CreateMeasurePayload,
 } from '../services/measureService';
 import { MeasureType } from '@prisma/client';
+import geminiService from '../services/geminiService';
 
 export const uploadMeasure = async (req: Request, res: Response) => {
   const { error_code, error_description, status_code, data } =
@@ -46,3 +47,11 @@ export const listCustomerMeasures = async (req: Request, res: Response) => {
 
   return res.status(status_code).json(data);
 };
+
+// apenas para testes da IA
+export const testContentGenerator = async (req: Request, res: Response) => {
+  const { prompt } = req.query;
+  const response = await geminiService.testAIModel(prompt as string || 'Say hello to the world!');
+
+  return res.status(200).json({ response });
+}
