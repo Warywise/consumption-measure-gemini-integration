@@ -25,14 +25,15 @@ class MeasureService {
   async createMeasure(data: CreateMeasurePayload) {
     const { measure_type, customer_code, image, measure_datetime } = data;
     const existingMeasure = await measuresModel.findByCustomer(
-      data.customer_code,
+      customer_code,
       {
         measure_type,
         get_last: true,
       },
     );
 
-    if (existingMeasure) {
+    if (existingMeasure.length) {
+      console.log('- existingMeasure', existingMeasure);
       return {
         status_code: 409,
         error_code: 'DOUBLE_REPORT',
@@ -66,7 +67,10 @@ class MeasureService {
     };
   }
 
-  async confirmMeasure({ measure_uuid, confirmed_value }: ConfirmMeasurePayload) {
+  async confirmMeasure({
+    measure_uuid,
+    confirmed_value,
+  }: ConfirmMeasurePayload) {
     const measure = await measuresModel.findByUuid(measure_uuid);
 
     if (!measure) {
