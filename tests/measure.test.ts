@@ -1,6 +1,8 @@
 import request from 'supertest';
 import app from '../src/app';
 
+// TODO: tests failing after implementing the services, fix them
+
 describe('- Measure Endpoints [SUCCESS]', () => {
   it('1. should upload a measure', async () => {
     const res = await request(app).post('/upload').send({
